@@ -1,5 +1,8 @@
 import React, { useContext, useEffect } from "react";
+import AddToDoInput from "./components/AddToDoInput";
+import Filters from "./components/Filters";
 import Header from "./components/Header";
+import ToDoList from "./components/ToDoList";
 import { ToDoContext } from "./contexts/ToDoContext";
 
 const App = () => {
@@ -12,6 +15,9 @@ const App = () => {
     return (
         <div className="app">
             <Header />
+            <Filters />
+            <AddToDoInput />
+            <ToDoList />
         </div>
     );
 };
