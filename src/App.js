@@ -15,8 +15,8 @@ const App = () => {
     return (
         <div className="app">
             <Header />
-            <Filters />
             <AddToDoInput />
+            <Filters />
             <ToDoList />
         </div>
     );

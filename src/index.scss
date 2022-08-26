@@ -40,4 +40,40 @@ body {
         gap: 1rem;
         margin: 0 2rem;
     }
+
+    .todo_list {
+        margin: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        .todo_item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            border: 1px solid var(--bs-border-color-translucent);
+            border-radius: 5px;
+            cursor: pointer;
+            user-select: none;
+
+            .todo_title {
+                padding: 0.5rem;
+                font-size: 1.1em;
+                flex: 1;
+            }
+
+            .completedTodo {
+                text-decoration: line-through;
+            }
+
+            span {
+                padding: 0.5rem;
+                padding-left: 0;
+                color: var(--bs-red);
+                font-size: 1.2em;
+                z-index: 10;
+            }
+        }
+    }
 }
