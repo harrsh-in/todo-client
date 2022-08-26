@@ -1,12 +1,27 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ToDoContext } from "../contexts/ToDoContext";
 
 const ToDoList = () => {
-    const { todoList, toggleToDo, deleteToDo } = useContext(ToDoContext);
+    const { todoList, toggleToDo, deleteToDo, activeFilters } =
+        useContext(ToDoContext);
+
+    const [localToDoList, setLocalToDoList] = useState([]);
+
+    useEffect(() => {
+        let activeToDoList = [];
+        let completedToDoList = [];
+
+        if (activeFilters.includes("active"))
+            activeToDoList = todoList.filter((todo) => !todo.isCompleted);
+        if (activeFilters.includes("completed"))
+            completedToDoList = todoList.filter((todo) => todo.isCompleted);
+
+        setLocalToDoList([...activeToDoList, ...completedToDoList]);
+    }, [todoList, activeFilters]);
 
     return (
         <div className="todo_list">
-            {todoList.map((todo) => {
+            {localToDoList.map((todo) => {
                 return (
                     <div key={todo.id} className="todo_item">
                         <div

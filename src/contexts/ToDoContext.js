@@ -1,36 +1,14 @@
+import { v4 as uuidv4 } from "uuid";
 import React, { createContext, useState } from "react";
-
-const initialToDoList = [
-    {
-        id: 3,
-        isCompleted: false,
-        title: "Test 4",
-    },
-    {
-        id: 2,
-        isCompleted: true,
-        title: "Test 3",
-    },
-    {
-        id: 1,
-        isCompleted: false,
-        title: "Test 2",
-    },
-    {
-        id: 0,
-        isCompleted: true,
-        title: "Test 1",
-    },
-];
 
 export const ToDoContext = createContext();
 
 export const ToDoProvider = ({ children }) => {
-    const [todoList, setTodoList] = useState(initialToDoList);
+    const [todoList, setTodoList] = useState([]);
 
     const addToDo = (title) => {
         const newToDo = {
-            id: todoList[0].id + 1,
+            id: uuidv4(),
             isCompleted: false,
             title,
         };
@@ -40,25 +18,38 @@ export const ToDoProvider = ({ children }) => {
 
     const deleteToDo = (id) => {
         const index = todoList.findIndex((todo) => todo.id === id);
-        const tempToDo = [...todoList];
-        tempToDo.splice(index, 1);
-        setTodoList([...tempToDo]);
+
+        if (index > -1) {
+            const tempToDo = [...todoList];
+            tempToDo.splice(index, 1);
+            setTodoList([...tempToDo]);
+        }
     };
 
     const toggleToDo = (id) => {
         const index = todoList.findIndex((todo) => todo.id === id);
-        const tempToDo = [...todoList];
-        tempToDo[index].isCompleted = !tempToDo[index].isCompleted;
-        setTodoList([...tempToDo]);
+
+        if (index > -1) {
+            const tempToDo = [...todoList];
+            tempToDo[index].isCompleted = !tempToDo[index].isCompleted;
+            setTodoList([...tempToDo]);
+        }
     };
 
-    /**
-     * 0 - None
-     * 1 - Active
-     * 2 - Completed
-     * 3 - All
-     */
-    const [activeFilter, setActiveFilter] = useState(3);
+    const [activeFilters, setActiveFilters] = useState(["active", "completed"]);
+
+    const toggleFilter = (key) => {
+        const index = activeFilters.findIndex((filter) => filter === key);
+        const tempFilters = [...activeFilters];
+
+        if (index > -1) {
+            tempFilters.splice(index, 1);
+        } else {
+            tempFilters.push(key);
+        }
+
+        setActiveFilters(tempFilters);
+    };
 
     return (
         <ToDoContext.Provider
@@ -68,8 +59,8 @@ export const ToDoProvider = ({ children }) => {
                 deleteToDo,
                 toggleToDo,
 
-                activeFilter,
-                setActiveFilter,
+                activeFilters,
+                toggleFilter,
             }}
         >
             {children}

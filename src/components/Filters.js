@@ -2,22 +2,28 @@ import React, { useContext } from "react";
 import { ToDoContext } from "../contexts/ToDoContext";
 
 const Filters = () => {
-    const { activeFilter } = useContext(ToDoContext);
+    const { activeFilters, toggleFilter } = useContext(ToDoContext);
 
     return (
         <div className="filters">
             <div
                 className={`filter ${
-                    [1, 3].includes(activeFilter) ? "selected" : ""
+                    activeFilters.includes("active") ? "selected" : ""
                 }`}
+                onClick={() => {
+                    toggleFilter("active");
+                }}
             >
                 <p>#active</p>
             </div>
 
             <div
                 className={`filter ${
-                    [2, 3].includes(activeFilter) ? "selected" : ""
+                    activeFilters.includes("completed") ? "selected" : ""
                 }`}
+                onClick={() => {
+                    toggleFilter("completed");
+                }}
             >
                 <p>#completed</p>
             </div>
